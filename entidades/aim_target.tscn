@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/fx/star.png" type="Texture" id=1]
+[ext_resource path="res://scripts/aim_target.gd" type="Script" id=2]
+
+[node name="aim_target" type="KinematicBody"]
+script = ExtResource( 2 )
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+pixel_size = 0.2
+texture = ExtResource( 1 )
+hframes = 2

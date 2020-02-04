@@ -1,0 +1,227 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://models/floor.tres" type="CubeMesh" id=1]
+[ext_resource path="res://entidades/player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://entidades/bola.tscn" type="PackedScene" id=3]
+[ext_resource path="res://entidades/aim_target.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/arbitros/ARFO.png" type="Texture" id=5]
+[ext_resource path="res://entidades/bot.tscn" type="PackedScene" id=6]
+[ext_resource path="res://textures/hard_court_texture.png" type="Texture" id=7]
+[ext_resource path="res://entidades/aim_target_bot.tscn" type="PackedScene" id=8]
+
+[sub_resource type="PhysicsMaterial" id=1]
+bounce = 0.6
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 26.5942, 0.212347, 26.3566 )
+
+[sub_resource type="ProceduralSky" id=3]
+sun_color = Color( 1, 0.427451, 0.0470588, 1 )
+
+[sub_resource type="Environment" id=4]
+background_sky = SubResource( 3 )
+ambient_light_color = Color( 0.890196, 1, 0.988235, 1 )
+auto_exposure_scale = 1.0
+glow_intensity = 0.87
+glow_strength = 1.02
+
+[sub_resource type="SpatialMaterial" id=5]
+albedo_color = Color( 0.0980392, 0.0980392, 0.0980392, 0.498039 )
+
+[sub_resource type="CubeMesh" id=6]
+material = SubResource( 5 )
+
+[sub_resource type="SpatialMaterial" id=7]
+albedo_color = Color( 0.658824, 0.658824, 0.658824, 1 )
+
+[sub_resource type="ShaderMaterial" id=8]
+
+[sub_resource type="BoxShape" id=9]
+
+[sub_resource type="BoxShape" id=10]
+extents = Vector3( 0.82614, 1, 1 )
+
+[sub_resource type="BoxShape" id=11]
+
+[sub_resource type="BoxShape" id=12]
+
+[sub_resource type="BoxShape" id=13]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="quadra" type="StaticBody" parent="."]
+transform = Transform( 1.6225, 0, 0, 0, 1, 0, 0, 0, 2.16508, 0, 0, 0 )
+physics_material_override = SubResource( 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Sprite3D" type="Sprite3D" parent="quadra"]
+transform = Transform( 1.918, 0, 0, 0, -3.71984e-08, 2.165, 0, -0.851, -9.46352e-08, 0, 0, 0 )
+cast_shadow = 0
+modulate = Color( 0.8, 0.8, 0.8, 1 )
+transparent = false
+shaded = true
+double_sided = false
+texture = ExtResource( 7 )
+region_enabled = true
+region_rect = Rect2( 181, 201, 1343, 2516 )
+
+[node name="mesh" type="MeshInstance" parent="quadra"]
+transform = Transform( 2.67449, 0, 0, 0, 1, 0, 0, 0, 1.97102, 0, -0.522526, 0 )
+mesh = ExtResource( 1 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="quadra"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0653405, 0 )
+shape = SubResource( 2 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.567398, 0.823444, 0, -0.823444, 0.567398, 0, 30, 26.846 )
+environment = SubResource( 4 )
+current = true
+
+[node name="bola" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.347, 2.61, 22.409 )
+
+[node name="net" type="StaticBody" parent="."]
+transform = Transform( -2.3167e-09, 0, 21.893, 0, 1.178, 0, -0.053, 0, -9.56974e-07, -0.0219488, 0.403585, 0.0201354 )
+
+[node name="body" type="MeshInstance" parent="net" groups=[
+"wall",
+]]
+transform = Transform( 1, 0, 1.27329e-11, 0, 0.999999, 0, 0, 0, 1, 0, 0.693216, 0 )
+mesh = SubResource( 6 )
+material/0 = SubResource( 7 )
+
+[node name="top" type="MeshInstance" parent="net" groups=[
+"wall",
+]]
+transform = Transform( 1, 0, 5.45697e-12, 0, 0.118136, 0, 0, 0, 1, 0, 1.85245, 0 )
+mesh = SubResource( 6 )
+material/0 = SubResource( 8 )
+
+[node name="suporte" type="MeshInstance" parent="net" groups=[
+"wall",
+]]
+transform = Transform( 1, 0, 2.84217e-14, 0, 1.35796, 0, 0, 0, 0.00664663, -2.98023e-08, 0.686704, -1.01527 )
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="suporte2" type="MeshInstance" parent="net" groups=[
+"wall",
+]]
+transform = Transform( 1, 0, 2.84217e-14, 0, 1.35796, 0, 0, 0, 0.00664663, -8.9407e-08, 0.686704, 1.01408 )
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="net"]
+shape = SubResource( 9 )
+
+[node name="paredes" type="Spatial" parent="."]
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="wall" type="StaticBody" parent="paredes" groups=[
+"wall",
+]]
+transform = Transform( 0.343157, 0, 0, 0, 9.07768, 0, 0, 0, 62.4245, -39.2199, 3.30856, 1.83767 )
+
+[node name="mesh" type="MeshInstance" parent="paredes/wall"]
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="Area" type="Area" parent="paredes/wall"]
+
+[node name="CollisionShape" type="CollisionShape" parent="paredes/wall/Area"]
+shape = SubResource( 10 )
+
+[node name="walls2" type="StaticBody" parent="paredes" groups=[
+"wall",
+]]
+transform = Transform( 0.343157, 0, 0, 0, 9.07768, 0, 0, 0, 62.4245, 39.1059, 3.30856, 1.83767 )
+
+[node name="mesh" type="MeshInstance" parent="paredes/walls2" groups=[
+"wall",
+]]
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="paredes/walls2"]
+shape = SubResource( 11 )
+
+[node name="walls3" type="StaticBody" parent="paredes" groups=[
+"wall",
+]]
+transform = Transform( -3.80844e-08, 0, 44.0943, 0, 6.06348, 0, -0.21869, 0, -4.83788e-07, -0.0347812, -0.400236, 54.0577 )
+
+[node name="mesh" type="MeshInstance" parent="paredes/walls3" groups=[
+"wall",
+]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 5.55112e-17, 0, 1, 0, 0, 0 )
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="paredes/walls3"]
+transform = Transform( 1.56915, 0, -1.81899e-12, 0, 1.56915, 0, 5.55112e-16, 0, 1.56915, 5.58746, -0.233441, 0.00196854 )
+shape = SubResource( 12 )
+
+[node name="walls4" type="StaticBody" parent="paredes" groups=[
+"wall",
+]]
+transform = Transform( -3.71825e-08, 0, 44.1749, 0, 9.07768, 0, -0.343157, 0, -7.78968e-07, 0.0192213, 3.30856, -54.5385 )
+
+[node name="mesh" type="MeshInstance" parent="paredes/walls4" groups=[
+"wall",
+]]
+transform = Transform( 1, 0, 0, 0, 1, 0, -1.11022e-16, 0, 1, 0, 0, 0 )
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="paredes/walls4"]
+shape = SubResource( 13 )
+
+[node name="player" parent="." instance=ExtResource( 2 )]
+transform = Transform( -0.75, 0, -1.50996e-07, 0, 0.75, 0, 1.13247e-07, 0, -1, -1.821, 1.718, 23.719 )
+force = 19.0
+
+[node name="aim_target" parent="." instance=ExtResource( 4 )]
+process_priority = 1
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.295754, 0.320564, -18.5111 )
+
+[node name="arbitro" type="Sprite3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24.548, 2.8, 0.568 )
+cast_shadow = 0
+modulate = Color( 0.980469, 0.980469, 0.980469, 1 )
+pixel_size = 0.15
+transparent = false
+shaded = true
+double_sided = false
+alpha_cut = 1
+texture = ExtResource( 5 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.530127, 0.847919, 0, -0.847919, 0.530127, 25.6292, 10.0326, 8.89862 )
+light_color = Color( 0.819608, 0.992157, 0.968627, 1 )
+light_energy = 3.0
+light_indirect_energy = 5.0
+light_bake_mode = 0
+shadow_enabled = true
+
+[node name="bot" parent="." instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.24665, 2.96404, -24.0463 )
+target1 = NodePath("../aim_target_bot1")
+target2 = NodePath("../aim_target_bot2")
+target3 = NodePath("../aim_target_bot3")
+
+[node name="aim_target_bot1" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.167849, 0.158249, 18.5186 )
+
+[node name="aim_target_bot2" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9.68892, 0.158249, 18.5186 )
+
+[node name="aim_target_bot3" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.61397, 0.158249, 18.5186 )

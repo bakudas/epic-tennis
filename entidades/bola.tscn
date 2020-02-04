@@ -1,0 +1,63 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://materials/ball_yellow_material.tres" type="Material" id=1]
+[ext_resource path="res://scripts/bola.gd" type="Script" id=2]
+[ext_resource path="res://scripts/trail.gd" type="Script" id=3]
+[ext_resource path="res://assets/ball.png" type="Texture" id=4]
+
+[sub_resource type="PhysicsMaterial" id=1]
+friction = 0.0
+bounce = 0.1
+
+[sub_resource type="SphereMesh" id=2]
+material = ExtResource( 1 )
+radius = 0.3
+height = 0.6
+radial_segments = 24
+rings = 24
+
+[sub_resource type="SphereShape" id=3]
+radius = 0.302984
+
+[sub_resource type="Gradient" id=4]
+colors = PoolColorArray( 0.054902, 0.952941, 0.490196, 0.745098, 0.300293, 0.960938, 0.635777, 0 )
+
+[sub_resource type="GradientTexture" id=5]
+gradient = SubResource( 4 )
+
+[sub_resource type="SpatialMaterial" id=6]
+albedo_texture = SubResource( 5 )
+
+[node name="bola" type="RigidBody" groups=[
+"ball",
+]]
+collision_layer = 2
+physics_material_override = SubResource( 1 )
+continuous_cd = true
+contacts_reported = 1
+contact_monitor = true
+script = ExtResource( 2 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 3 )
+
+[node name="ImmediateGeometry" type="ImmediateGeometry" parent="."]
+material_override = SubResource( 6 )
+cast_shadow = 0
+script = ExtResource( 3 )
+length = 4.0
+max_radius = 0.4
+density_lengthwise = 20
+shape = 6.18196
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+visible = false
+pixel_size = 0.15
+texture = ExtResource( 4 )
