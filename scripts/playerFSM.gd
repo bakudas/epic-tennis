@@ -27,98 +27,36 @@ func _state_logic(delta):
 	parent._is_hitting()
 	
 func _get_transition(delta):
+	var move:Dictionary = {
+		"idle" : parent.motion.z == 0 && parent.motion.x == 0,
+		"up" : parent.motion.z < 0 && parent.motion.x == 0,
+		"down" : parent.motion.z > 0 && parent.motion.x == 0,
+		"side" : parent.motion.z == 0 && parent.motion.x != 0,
+		"side_up" : parent.motion.z < 0 && parent.motion.x != 0,
+		"side_down" : parent.motion.z > 0 && parent.motion.x != 0,
+		"load" : parent.hitting && parent.shoot,
+		"play" : parent.shoot && !parent.hitting,
+		"jump" : null,
+	}
+	
 	match (state):
-		states.idle:
-			if parent.motion.x != 0:
-				if parent.motion.z < 0:
-					return states.side_up
-				elif parent.motion.z > 0:
-					return states.side_down
+		_:
+			if move.up:
+				return states.up
+			elif move.down:
+				return states.down
+			elif move.side:
 				return states.side
-			elif parent.motion.z < 0:
-					return states.up
-			elif parent.motion.z > 0:
-					return states.down
-			elif parent.hitting:
-				return states.load
-		states.side:
-			if parent.motion.z < 0:
-					return states.side_up
-			elif parent.motion.z > 0:
-					return states.side_down
-			elif parent.motion.x == 0:
-				if parent.motion.z < 0:
-					return states.up
-				elif parent.motion.z > 0:
-					return states.down
-				else:
-					return states.idle
-			elif parent.hitting:
-				return states.load 
-		states.up:
-			if parent.motion.x != 0:
-				if parent.motion.z > 0:
-					return states.side_down
-				elif parent.motion.z < 0:
-					return states.side_up
-			elif parent.motion.x == 0:
-				if parent.motion.z > 0:
-					return states.down
-				elif parent.motion.z == 0:
-					return states.idle
-			elif parent.hitting:
-				return states.load
-		states.down:
-			if parent.motion.x != 0:
-				if parent.motion.z < 0:
-					return states.side_up
-				else:
-					return states.side
-			elif parent.motion.x == 0:
-				if parent.motion.z < 0:
-					return states.up
-				elif parent.motion.z == 0:
-					return states.idle
-			elif parent.hitting:
-				return states.load
-		states.side_up:
-			if parent.motion.x == 0:
-				if parent.motion.z == 0:
-					return states.idle
-				elif parent.motion.z < 0:
-					return states.up
-				elif parent.motion.z > 0:
-					return states.down
-			elif parent.motion.x != 0:
-				if parent.motion.z > 0:
-					return states.side_down 
-				if parent.motion.z == 0:
-					return states.side
-			elif parent.hitting:
-				return states.load
-		states.side_down:
-			if parent.motion.x == 0:
-				if parent.motion.z == 0:
-					return states.idle
-				elif parent.motion.z < 0:
-					return states.up
-				elif parent.motion.z > 0:
-					return states.down
-			elif parent.motion.x != 0:
-				if parent.motion.z < 0:
-					return states.side_up
-			elif parent.hitting:
-				return states.load
-		states.load:
-			if parent.shoot and !parent.hitting:
+			elif move.side_up:
+				return states.side_up
+			elif move.side_down:
+				return states.side_down
+			elif move.load:
 				return states.play
-			elif !parent.hitting and !parent.shoot:
+			elif move.play:
 				return states.idle
-		states.play:
-			if !parent.shoot:
-				return states.idle
-		states.jump:
-			pass
+			elif move.jump:
+				return states.jump
 	return null
 	
 func _enter_state(new_state, old_state):
@@ -145,6 +83,9 @@ func _enter_state(new_state, old_state):
 				parent.anim.play("forehand")
 		
 func _exit_state(new_state, old_state):
+	pass
+	
+func _check_player_dir(dir:String):
 	pass
 
 func _on_range_body_entered(body):
